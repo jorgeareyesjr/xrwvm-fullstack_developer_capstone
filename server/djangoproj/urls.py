@@ -22,9 +22,11 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('djangoapp/', include('djangoapp.urls')),
+    # Configure routes for DJANGO views rendered from templates.
     path('', TemplateView.as_view(template_name="Home.html")),
     path('about/', TemplateView.as_view(template_name="About.html")),
     path('contact/', TemplateView.as_view(template_name="Contact.html")),
-    # Configure a route for the login page (a REACT page rendered from a route that is configured in `/server/frontend/src/App.js`).
+    # Configure routes for REACT views rendered from app routes configured in `/server/frontend/src/App.js`.
     path('login/', TemplateView.as_view(template_name="index.html")),
+    path('register/', TemplateView.as_view(template_name="index.html")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
