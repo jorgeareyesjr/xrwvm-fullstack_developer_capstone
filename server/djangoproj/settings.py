@@ -34,11 +34,8 @@ ALLOWED_HOSTS=[
 CSRF_TRUSTED_ORIGINS=[
     'http://localhost:8000',
     # Keep in mind that the coursera labs use different urls and may need to be added here
-    # 'https://{username}-8000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai'
+    'https://jorgeareyesj-8000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai',
 ]
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:8000',
-# ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
