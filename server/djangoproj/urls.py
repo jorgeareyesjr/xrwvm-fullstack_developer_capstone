@@ -29,4 +29,5 @@ urlpatterns = [
     # Configure routes for REACT views rendered from app routes configured in `/server/frontend/src/App.js`.
     path('login/', TemplateView.as_view(template_name="index.html")),
     path('register/', TemplateView.as_view(template_name="index.html")),
+    path('dealers/', TemplateView.as_view(template_name="index.html")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
