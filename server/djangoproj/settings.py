@@ -28,8 +28,13 @@ SECRET_KEY =\
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS=['localhost']
-CSRF_TRUSTED_ORIGINS=['http://localhost:8000']
+ALLOWED_HOSTS=[
+    'localhost',
+]
+CSRF_TRUSTED_ORIGINS=[
+    'http://localhost:8000',
+    # Keep in mind that the coursera labs use different urls and may need to be added here
+]
 # CORS_ORIGIN_WHITELIST = [
 #     'http://localhost:8000',
 # ]
