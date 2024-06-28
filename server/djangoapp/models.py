@@ -24,7 +24,7 @@ class CarMake(models.Model):
 class CarModel(models.Model):
     # Many-To-One relationship to Car Make model
     # One Car Make has many Car Models, using ForeignKey field
-    make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
     name = models.CharField(
         null=False,
         max_length=50,
