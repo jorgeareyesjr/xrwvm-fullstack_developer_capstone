@@ -70,6 +70,6 @@ class CarModel(models.Model):
         default=2024,
     )
     dealer_id = models.IntegerField(
-        null=False,
+        null=True,
         default=None,
     )
