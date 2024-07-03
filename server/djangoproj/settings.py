@@ -105,8 +105,10 @@ DATABASES = {
     }
 }
 
-AUTH_PASSWORD_VALIDATORS_BASE = 'django.contrib.auth.password_validation.'
-AUTH_PASSWORD_VALIDATOR = AUTH_PASSWORD_VALIDATORS_BASE + 'UserAttributeSimilarityValidator'
+AUTH_PASSWORD_VALIDATION = 'django.contrib.auth.password_validation.'
+USER_PASSWORD_VALIDATOR = 'UserAttributeSimilarityValidator'
+AUTH_PASSWORD_VALIDATOR = AUTH_PASSWORD_VALIDATION + USER_PASSWORD_VALIDATOR
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME':
