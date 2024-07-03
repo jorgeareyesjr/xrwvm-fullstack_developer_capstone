@@ -15,9 +15,10 @@ from pathlib import Path
 
 # Coursera URLs (namespaced with "C_LAB")
 C_LAB_USERNAME = 'jorgeareyesj'
-C_LAB_PORT = '8000'
-C_LAB_DOCKER = '.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai'
-C_LAB_URL = C_LAB_USERNAME + '-' + C_LAB_PORT + C_LAB_DOCKER
+C_LAB_PORT = '-8000'
+C_LAB_DOMAIN = '.theiadockernext-1-labs-prod-theiak8s-4-tor01'
+C_LAB_TLD = '.proxy.cognitiveclass.ai'
+C_LAB_URL = C_LAB_USERNAME + C_LAB_PORT + C_LAB_DOMAIN + C_LAB_TLD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -104,10 +105,12 @@ DATABASES = {
     }
 }
 
+AUTH_PASSWORD_VALIDATORS_BASE = 'django.contrib.auth.password_validation.'
+AUTH_PASSWORD_VALIDATOR = AUTH_PASSWORD_VALIDATORS_BASE + 'UserAttributeSimilarityValidator'
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME':
-        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        AUTH_PASSWORD_VALIDATOR,
     },
     {
         'NAME':
