@@ -3,6 +3,7 @@ from .models import CarMake, CarModel
 
 # CarModelInline class
 
+
 class CarModelInline(admin.StackedInline):
     model = CarModel
     extra = 3

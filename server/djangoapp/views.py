@@ -49,12 +49,11 @@ authentication status using the `checkSession()` function.
 """
 
 # Create a `login_request` view to handle sign in request
+
+
 @csrf_exempt
-# When the user logs in:
-
-
 def login_user(request):
-    # Deserialize the request body to a data dictionary
+    # When the user logs in, deserialize the request body to a data dictionary
     data = json.loads(request.body)
     # Extract the username and password from the data dictionary
     username = data['userName']
@@ -187,9 +186,15 @@ def add_review(request):
     if (request.user.is_anonymous == False):
         data = json.loads(request.body)
         try:
-            response = post_review(data)
-            return JsonResponse({"status": 200})
+            post_review(data)
+            return JsonResponse({"status": 200 })
         except Exception:
-            return JsonResponse({"status": 401, "message": "Error in posting review"})
+            return JsonResponse({
+                "status": 401,
+                "message": "Error in posting review",
+            })
     else:
-        return JsonResponse({"status": 403, "message": "Unauthorized"})
+        return JsonResponse({
+            "status": 403,
+            "message": "Unauthorized",
+        })
