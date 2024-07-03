@@ -17,6 +17,8 @@ The `get_request` method has two arguments:
 - a Python keyword arguments representing all URL parameters associated
     with the get call.
 """
+
+
 def get_request(endpoint, **kwargs):
     params = ""
     if (kwargs):

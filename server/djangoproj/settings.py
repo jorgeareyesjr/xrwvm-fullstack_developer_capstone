@@ -13,11 +13,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
-# Coursera URLs
-COURSERA_USERNAME = 'jorgeareyesj'
-COURSERA_PORT = '8000'
-COURSERA_DOCKER = '.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai'
-COURSERA_LAB_URL = COURSERA_USERNAME + '-' + COURSERA_PORT + COURSERA_DOCKER
+# Coursera URLs (namespaced with "C_LAB")
+C_LAB_USERNAME = 'jorgeareyesj'
+C_LAB_PORT = '8000'
+C_LAB_DOCKER = '.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai'
+C_LAB_URL = C_LAB_USERNAME + '-' + C_LAB_PORT + C_LAB_DOCKER
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,7 +40,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     # Keep in mind that the coursera labs use different urls
     # andmay need to be added here among the allowed hosts
-    'https://' + COURSERA_LAB_URL,
+    'https://' + C_LAB_URL,
 ]
 
 REST_FRAMEWORK = {

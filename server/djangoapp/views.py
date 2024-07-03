@@ -21,6 +21,8 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 # Create a `get_cars` view to render the index page with a list of cars
+
+
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
@@ -29,8 +31,11 @@ def get_cars(request):
     car_models = CarModel.objects.select_related('car_make')
     cars = []
     for car_model in car_models:
-        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
-    return JsonResponse({"CarModels":cars})
+        cars.append({
+            "CarModel": car_model.name,
+            "CarMake": car_model.car_make.name,
+        })
+    return JsonResponse({"CarModels": cars})
 
 
 """
@@ -46,6 +51,8 @@ authentication status using the `checkSession()` function.
 # Create a `login_request` view to handle sign in request
 @csrf_exempt
 # When the user logs in:
+
+
 def login_user(request):
     # Deserialize the request body to a data dictionary
     data = json.loads(request.body)
@@ -93,7 +100,8 @@ def registration(request):
     if User.objects.filter(username=username).exists():
         username_already_exists = True
     else:
-        # If the username does not already exist, log the username, for debugging purposes
+        # If the username does not already exist,
+        # log the username, for debugging purposes
         logger.debug("{} is new user".format(username))
 
     # If this is a new username
@@ -108,11 +116,12 @@ def registration(request):
         )
         # Log the newly created user in, following the normal login process
         login(request, user)
-        # Reassign the data dictionary with the username and authentication status
+        # Reassign the data dictionary to,
+        # the username and authentication status
         data = {"userName": username, "status": "Authenticated"}
         # Return a JSON response, the user data dictionary, to the frontend
         return JsonResponse(data)
-    
+
     # If the username already exists, prevent a duplicate registration
     else:
         # Reassign the data dictionary with the username and an error message
@@ -121,8 +130,9 @@ def registration(request):
         return JsonResponse(data)
 
 
-# Update the `get_dealerships` view to render the index page with a list of all dealerships by default.
-# If a particular state is passed to the request url, only show dealerships from that state.
+# Update the `get_dealerships` view to render the index page with a list
+# of all dealerships by default. If a particular state is passed to the
+# request url, only show dealerships from that state.
 def get_dealerships(request, state="All"):
     if (state == "All"):
         endpoint = "/fetchDealers"
@@ -141,6 +151,8 @@ The `get_dealer_reviews` method:
     - calls `analyze_review_sentiments` in `restapis.py` to consume the
         microservice and determine the sentiment of each of the reviews
 """
+
+
 def get_dealer_reviews(request, dealer_id):
     # if dealer id has been provided
     if (dealer_id):
@@ -149,7 +161,8 @@ def get_dealer_reviews(request, dealer_id):
         for review_detail in reviews:
             response = analyze_review_sentiments(review_detail['review'])
             print(response)
-            # set the values of the review sentiments in the review_detail dictonary to be returned as a JsonResponse.
+            # set the values of the review sentiments in the review_detail
+            # dictonary to be returned as a JsonResponse
             if not response:
                 review_detail['sentiment'] = "neutral"
             else:
