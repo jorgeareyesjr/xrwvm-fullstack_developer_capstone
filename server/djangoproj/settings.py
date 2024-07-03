@@ -13,6 +13,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+# Coursera URLs
+COURSERA_USERNAME = 'jorgeareyesj'
+COURSERA_PORT = '8000'
+COURSERA_DOCKER = '.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai'
+COURSERA_LAB_URL = COURSERA_USERNAME + '-' + COURSERA_PORT + COURSERA_DOCKER
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,13 +33,14 @@ SECRET_KEY =\
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS=[
+ALLOWED_HOSTS = [
     'localhost',
 ]
-CSRF_TRUSTED_ORIGINS=[
+CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
-    # Keep in mind that the coursera labs use different urls and may need to be added here
-    'https://jorgeareyesj-8000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai',
+    # Keep in mind that the coursera labs use different urls
+    # andmay need to be added here among the allowed hosts
+    'https://' + COURSERA_LAB_URL,
 ]
 
 REST_FRAMEWORK = {
@@ -147,8 +153,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # For the Django application to look for static files.
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'frontend/static'),
+    os.path.join(BASE_DIR, 'frontend/static'),
     os.path.join(BASE_DIR, 'frontend/build'),
     os.path.join(BASE_DIR, 'frontend/build/static'),
 ]
-

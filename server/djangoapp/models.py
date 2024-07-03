@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.timezone import now
+# from django.utils.timezone import now
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
@@ -20,6 +20,7 @@ class CarMake(models.Model):
     def __str__(self):
         return "Name: " + self.name + "," + \
                "Description: " + self.description
+
 
 class CarModel(models.Model):
     # Many-To-One relationship to Car Make model
@@ -73,3 +74,4 @@ class CarModel(models.Model):
         null=True,
         default=None,
     )
+

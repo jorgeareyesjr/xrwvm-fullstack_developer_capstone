@@ -1,10 +1,9 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+# from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render, redirect
+# from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import logout
-from django.contrib import messages
-from datetime import datetime
+# from django.contrib import messages
+# from datetime import datetime
 
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
@@ -25,7 +24,7 @@ logger = logging.getLogger(__name__)
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
-    if(count == 0):
+    if (count == 0):
         initiate()
     car_models = CarModel.objects.select_related('car_make')
     cars = []
@@ -33,12 +32,15 @@ def get_cars(request):
         cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels":cars})
 
+
 """
 Note on the `login_user` and `logout_request` views:
-The `login_user` and `logout_request` views are implemented as function-based views.
-These views handle the sign-in and sign-out requests from the frontend, respectively.
-In both, the current users' authentication details are saved in the window.sessionStorage object.
-Once in the session storage, the frontend can access the user's authentication status using the `checkSession()` function.
+The `login_user` and `logout_request` views are implemented as
+function-based views. These views handle the sign-in and sign-out
+requests from the frontend, respectively. In both, the current users'
+authentication details are saved in the window.sessionStorage object.
+Once in the session storage, the frontend can access the user's
+authentication status using the `checkSession()` function.
 """
 
 # Create a `login_request` view to handle sign in request
@@ -62,14 +64,16 @@ def login_user(request):
         # Return a JSON response, the user data dictionary, to the frontend
     return JsonResponse(data)
 
+
 # Create a `logout_request` view to handle sign out request
 # When the user logs out:
 def logout_request(request):
     # Logout user
     logout(request)
-    data = {"userName":""}
+    data = {"userName": ""}
     # Return a JSON response, a user data dictionary, to the frontend
     return JsonResponse(data)
+
 
 # Create a `registration` view to handle sign up request
 @csrf_exempt
@@ -105,38 +109,42 @@ def registration(request):
         # Log the newly created user in, following the normal login process
         login(request, user)
         # Reassign the data dictionary with the username and authentication status
-        data = {"userName":username,"status":"Authenticated"}
+        data = {"userName": username, "status": "Authenticated"}
         # Return a JSON response, the user data dictionary, to the frontend
         return JsonResponse(data)
     
     # If the username already exists, prevent a duplicate registration
     else:
         # Reassign the data dictionary with the username and an error message
-        data = {"userName":username, "error":"Already Registered"}
+        data = {"userName": username, "error": "Already Registered"}
         # Return a JSON response, the user data dictionary, to the frontend
         return JsonResponse(data)
+
 
 # Update the `get_dealerships` view to render the index page with a list of all dealerships by default.
 # If a particular state is passed to the request url, only show dealerships from that state.
 def get_dealerships(request, state="All"):
-    if(state == "All"):
+    if (state == "All"):
         endpoint = "/fetchDealers"
     else:
-        endpoint = "/fetchDealers/"+state
+        endpoint = "/fetchDealers/" + state
     dealerships = get_request(endpoint)
-    return JsonResponse({"status":200,"dealers":dealerships})
+    return JsonResponse({"status": 200, "dealers": dealerships})
+
 
 # Create a `get_dealer_reviews` view to render the reviews of a dealer
 """
 The `get_dealer_reviews` method:
     - takes the dealer_id as a parameter
-    - uses the `get_request` function implemented in the `restapis.py` passing the `/fetchReviews/dealer/<dealer id>` endpoint
-    - calls `analyze_review_sentiments` in `restapis.py` to consume the microservice and determine the sentiment of each of the reviews
+    - uses the `get_request` function implemented in the `restapis.py`
+        passing the `/fetchReviews/dealer/<dealer id>` endpoint
+    - calls `analyze_review_sentiments` in `restapis.py` to consume the
+        microservice and determine the sentiment of each of the reviews
 """
 def get_dealer_reviews(request, dealer_id):
     # if dealer id has been provided
-    if(dealer_id):
-        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
+    if (dealer_id):
+        endpoint = "/fetchReviews/dealer/" + str(dealer_id)
         reviews = get_request(endpoint)
         for review_detail in reviews:
             response = analyze_review_sentiments(review_detail['review'])
@@ -146,28 +154,29 @@ def get_dealer_reviews(request, dealer_id):
                 review_detail['sentiment'] = "neutral"
             else:
                 review_detail['sentiment'] = response['sentiment']
-        return JsonResponse({"status":200,"reviews":reviews})
+        return JsonResponse({"status": 200, "reviews": reviews})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
+
 
 # Create a `get_dealer_details` view to render the dealer details
 def get_dealer_details(request, dealer_id):
-    if(dealer_id):
-        endpoint = "/fetchDealer/"+str(dealer_id)
+    if (dealer_id):
+        endpoint = "/fetchDealer/" + str(dealer_id)
         dealership = get_request(endpoint)
-        return JsonResponse({"status":200,"dealer":dealership})
+        return JsonResponse({"status": 200, "dealer": dealership})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
 
 # Create a `add_review` view to submit a review
 def add_review(request):
-    if(request.user.is_anonymous == False):
+    if (request.user.is_anonymous == False):
         data = json.loads(request.body)
         try:
             response = post_review(data)
-            return JsonResponse({"status":200})
-        except:
-            return JsonResponse({"status":401,"message":"Error in posting review"})
+            return JsonResponse({"status": 200})
+        except Exception:
+            return JsonResponse({"status": 401, "message": "Error in posting review"})
     else:
-        return JsonResponse({"status":403,"message":"Unauthorized"})
+        return JsonResponse({"status": 403, "message": "Unauthorized"})
